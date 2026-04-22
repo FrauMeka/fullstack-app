@@ -7,10 +7,17 @@ export default function App() {
   const [name, setName] = useState('')
   const [studentId, setStudentId] = useState('')
 
+  // 🔍 DEBUG — покажет, есть ли API_URL
+  console.log("API_URL:", API_URL)
+
   const loadData = async () => {
-    const res = await fetch(`${API_URL}/api/data`)
-    const data = await res.json()
-    setItems(data)
+    try {
+      const res = await fetch(`${API_URL}/api/data`)
+      const data = await res.json()
+      setItems(data)
+    } catch (err) {
+      console.error("Error loading data:", err)
+    }
   }
 
   useEffect(() => {
@@ -20,25 +27,33 @@ export default function App() {
   const addItem = async (e) => {
     e.preventDefault()
 
-    await fetch(`${API_URL}/api/data`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name: name,
-        student_id: studentId
+    try {
+      await fetch(`${API_URL}/api/data`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name,
+          student_id: studentId
+        })
       })
-    })
 
-    setName('')
-    setStudentId('')
-    loadData()
+      setName('')
+      setStudentId('')
+      loadData()
+    } catch (err) {
+      console.error("Error adding item:", err)
+    }
   }
 
   const deleteItem = async (id) => {
-    await fetch(`${API_URL}/api/data/${id}`, {
-      method: 'DELETE'
-    })
-    loadData()
+    try {
+      await fetch(`${API_URL}/api/data/${id}`, {
+        method: 'DELETE'
+      })
+      loadData()
+    } catch (err) {
+      console.error("Error deleting item:", err)
+    }
   }
 
   return (
