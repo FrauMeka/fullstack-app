@@ -1,3 +1,3 @@
 # Fullstack App
 
-Frontend + Backend + PostgreSQL + GitHub Actions + Railway
+Frontend + Backend + PostgreSQL 
