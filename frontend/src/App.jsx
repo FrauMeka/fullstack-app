@@ -1,3 +1,4 @@
+cat > frontend/src/App.jsx <<'EOF'
 import React, { useEffect, useState } from 'react'
 
 export default function App() {
@@ -6,13 +7,9 @@ export default function App() {
   const [studentId, setStudentId] = useState('')
 
   const loadData = async () => {
-    try {
-      const res = await fetch('/api/data')
-      const data = await res.json()
-      setItems(data)
-    } catch (err) {
-      console.error('Error loading data:', err)
-    }
+    const res = await fetch('/api/data')
+    const data = await res.json()
+    setItems(data)
   }
 
   useEffect(() => {
@@ -22,34 +19,23 @@ export default function App() {
   const addItem = async (e) => {
     e.preventDefault()
 
-    try {
-      await fetch('/api/data', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: name,
-          student_id: studentId
-        })
-      })
+    await fetch('/api/data', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, student_id: studentId })
+    })
 
-      setName('')
-      setStudentId('')
-      loadData()
-    } catch (err) {
-      console.error('Error adding item:', err)
-    }
+    setName('')
+    setStudentId('')
+    loadData()
   }
 
   const deleteItem = async (id) => {
-    try {
-      await fetch(`/api/data/${id}`, {
-        method: 'DELETE'
-      })
+    await fetch(`/api/data/${id}`, {
+      method: 'DELETE'
+    })
 
-      loadData()
-    } catch (err) {
-      console.error('Error deleting item:', err)
-    }
+    loadData()
   }
 
   return (
@@ -81,10 +67,7 @@ export default function App() {
         {items.map((item) => (
           <li key={item.id} style={{ marginBottom: '10px' }}>
             {item.name} - {item.student_id}
-            <button
-              onClick={() => deleteItem(item.id)}
-              style={{ marginLeft: '10px' }}
-            >
+            <button onClick={() => deleteItem(item.id)} style={{ marginLeft: '10px' }}>
               Delete
             </button>
           </li>
@@ -93,3 +76,4 @@ export default function App() {
     </div>
   )
 }
+EOF
