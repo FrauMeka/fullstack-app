@@ -24,6 +24,8 @@ services:
   frontend:
     build: ./frontend
     container_name: frontend_app
+    environment:
+      VITE_API_URL: http://161.35.77.125/api
     depends_on:
       - backend
     ports:
