@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
 
-const API_URL = ''
-
 export default function App() {
   const [items, setItems] = useState([])
   const [name, setName] = useState('')
@@ -9,7 +7,7 @@ export default function App() {
 
   const loadData = async () => {
     try {
-      const res = await fetch(`${API_URL}/api/data`)
+      const res = await fetch('/api/data')
       const data = await res.json()
       setItems(data)
     } catch (err) {
@@ -25,7 +23,7 @@ export default function App() {
     e.preventDefault()
 
     try {
-      await fetch(`${API_URL}/api/data`, {
+      await fetch('/api/data', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -44,7 +42,7 @@ export default function App() {
 
   const deleteItem = async (id) => {
     try {
-      await fetch(`${API_URL}/api/data/${id}`, {
+      await fetch(`/api/data/${id}`, {
         method: 'DELETE'
       })
 
@@ -83,7 +81,6 @@ export default function App() {
         {items.map((item) => (
           <li key={item.id} style={{ marginBottom: '10px' }}>
             {item.name} - {item.student_id}
-
             <button
               onClick={() => deleteItem(item.id)}
               style={{ marginLeft: '10px' }}
