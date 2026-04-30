@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react'
 
-const API_URL = import.meta.env.VITE_API_URL
+const API_URL = ''
 
 export default function App() {
   const [items, setItems] = useState([])
   const [name, setName] = useState('')
   const [studentId, setStudentId] = useState('')
-
-  // 🔍 DEBUG — покажет, есть ли API_URL
-  console.log("API_URL:", API_URL)
 
   const loadData = async () => {
     try {
@@ -16,7 +13,7 @@ export default function App() {
       const data = await res.json()
       setItems(data)
     } catch (err) {
-      console.error("Error loading data:", err)
+      console.error('Error loading data:', err)
     }
   }
 
@@ -41,7 +38,7 @@ export default function App() {
       setStudentId('')
       loadData()
     } catch (err) {
-      console.error("Error adding item:", err)
+      console.error('Error adding item:', err)
     }
   }
 
@@ -50,9 +47,10 @@ export default function App() {
       await fetch(`${API_URL}/api/data/${id}`, {
         method: 'DELETE'
       })
+
       loadData()
     } catch (err) {
-      console.error("Error deleting item:", err)
+      console.error('Error deleting item:', err)
     }
   }
 
@@ -67,6 +65,7 @@ export default function App() {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
+
         <input
           type="text"
           placeholder="Student ID"
@@ -74,6 +73,7 @@ export default function App() {
           onChange={(e) => setStudentId(e.target.value)}
           style={{ marginLeft: '10px' }}
         />
+
         <button type="submit" style={{ marginLeft: '10px' }}>
           Add
         </button>
@@ -83,6 +83,7 @@ export default function App() {
         {items.map((item) => (
           <li key={item.id} style={{ marginBottom: '10px' }}>
             {item.name} - {item.student_id}
+
             <button
               onClick={() => deleteItem(item.id)}
               style={{ marginLeft: '10px' }}
